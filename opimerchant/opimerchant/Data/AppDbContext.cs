@@ -10,6 +10,7 @@ namespace opimerchant.Data
             
         }
 
-        DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Post> Posts { get; set; }
     }
 }
