@@ -1,0 +1,37 @@
+﻿@model opimerchant.Models.Post
+
+<h1>@Html.DisplayFor(model => model.Title)</h1>
+
+<div>
+	<dl class="row">
+		<div class="form-group-row">
+			<label asp-for="ID" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.ID)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group-row">
+			<label asp-for="Title" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.Title)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group-row">
+			<label asp-for="Description" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.Description)
+		</div>
+	</dl>
+	
+	<dl class="row">
+		<div class="form-group-row">
+			<label asp-for="Body" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.Body)
+		</div>
+	</dl>
+
+	<form>
+		<a asp-action="Index" asp-controller="Posts" class="btn btn-primary">Back</a>
+	</form>
+</div>
