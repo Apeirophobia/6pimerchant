@@ -3,14 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace opimerchant.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        [Key]
-        public int ID { get; set; }
-        [Required]
-        public string Username { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public List<string>? Orders { get; set; }
         
     }
 }
