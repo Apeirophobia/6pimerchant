@@ -55,7 +55,7 @@ namespace opimerchant.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var result = await _context.Posts.FirstOrDefaultAsync(x => x.ID == id);
+            var result = await _context.Posts.FirstOrDefaultAsync(x => x.PostID == id);
 
             if (result == null)
             {
