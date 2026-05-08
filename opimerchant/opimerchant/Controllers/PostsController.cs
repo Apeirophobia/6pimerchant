@@ -99,6 +99,45 @@ namespace opimerchant.Controllers
             return View(post);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostID == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (!_signInManager.IsSignedIn(User) || post.Author != User.Identity?.Name)
+            {
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+            return View(post);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Guid id, Post submitted)
+        {
+            var stored = await _context.Posts.FirstOrDefaultAsync(x => x.PostID == id);
+            if (stored == null)
+            {
+                return NotFound();
+            }
+            if (!_signInManager.IsSignedIn(User) || stored.Author != User.Identity?.Name)
+            {
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+
+            ModelState.Remove(nameof(Post.Author));
+            if (ModelState.IsValid == true)
+            {
+                stored.Title = submitted.Title;
+                stored.Description = submitted.Description;
+                stored.Body = submitted.Body;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
