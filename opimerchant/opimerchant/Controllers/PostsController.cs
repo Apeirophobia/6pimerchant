@@ -44,7 +44,7 @@ namespace opimerchant.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost(Post filled_post)
         {
-            // TODO: CHECK IF USER IS LOGGED IN 
+            // TODO: CHECK IF USER IS LOGGED IN
             if (ModelState.IsValid == true)
             {
                 var result = await _context.Posts.AddAsync(filled_post);
@@ -82,6 +82,38 @@ namespace opimerchant.Controllers
         public async Task<IActionResult> AccessDenied()
         {
             return View("AccessDenied", "Posts");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostID == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (!_signInManager.IsSignedIn(User) || post.Author != User.Identity?.Name)
+            {
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+            return View(post);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostID == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            if (!_signInManager.IsSignedIn(User) || post.Author != User.Identity?.Name)
+            {
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }
