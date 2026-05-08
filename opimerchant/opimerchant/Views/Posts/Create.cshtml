@@ -4,6 +4,8 @@
 	<form action="CreatePost" method="post" enctype="multipart/form-data">
 		<input asp-for="PostID" type="hidden" />
 		
+		<input asp-for="Author" type="hidden" value="@ViewBag.loggedUser" />
+		
 		<div class="form-group row">
 			<label asp-for="Title" class="col-sm-2 col-form-label"></label>
 			<div class="col-sm-10">
