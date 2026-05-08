@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using opimerchant.Data;
 using opimerchant.Models;
@@ -8,9 +9,13 @@ namespace opimerchant.Controllers
     public class PostsController : Controller
     {
         private readonly AppDbContext _context;
-        public PostsController(AppDbContext context)
+        private readonly SignInManager<opimerchant.Models.User> _signInManager;
+        public PostsController(
+            AppDbContext context,
+            SignInManager<opimerchant.Models.User> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -22,9 +27,17 @@ namespace opimerchant.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             Post blank_post = new Post();
+            if (!_signInManager.IsSignedIn(User))
+            {
+                Console.WriteLine("How did you get here?");
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+
+            var loggedUser =  await _signInManager.UserManager.GetUserAsync(User);
+            ViewBag.loggedUser = loggedUser;
             return View("Create", blank_post);
         }
 
@@ -63,6 +76,12 @@ namespace opimerchant.Controllers
             }
             
             return View(result);    
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View("AccessDenied", "Posts");
         }
     }
 }
