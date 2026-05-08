@@ -1,7 +1,12 @@
-﻿@model IEnumerable<opimerchant.Models.Post>
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<opimerchant.Models.Post>
+@inject SignInManager<opimerchant.Models.User> _signInManager;
 
 <div>
-	<a asp-action="Create" asp-controller="Posts" type="submit" class="btn btn-primary">Create New Post</a>
+	@if (_signInManager.IsSignedIn(User))
+	{
+		<a asp-action="Create" asp-controller="Posts" type="submit" class="btn btn-primary">Create New Post</a>
+	}
 </div>
 
 <br />
@@ -19,7 +24,7 @@
 			<tr>
 				<td>@post.PostID</td>
 				<td>@post.Title</td>
-				<td>@post.Body</td>
+				<td>@post.Description</td>
 
 				<td>
 					<a asp-action="Details" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-primary">View</a>
