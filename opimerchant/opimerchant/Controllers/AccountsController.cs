@@ -110,7 +110,7 @@ namespace opimerchant.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
