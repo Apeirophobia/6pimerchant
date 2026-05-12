@@ -12,8 +12,8 @@ using opimerchant.Data;
 namespace opimerchant.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260429081046_UserOptionals")]
-    partial class UserOptionals
+    [Migration("20260512073711_newPull")]
+    partial class newPull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,6 +163,10 @@ namespace opimerchant.Migrations
                     b.Property<Guid>("PostID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Body")
                         .IsRequired()
