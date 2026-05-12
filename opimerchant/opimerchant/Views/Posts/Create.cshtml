@@ -1,0 +1,34 @@
+﻿@model opimerchant.Models.Post
+
+<div>
+	<form action="CreatePost" method="post" enctype="multipart/form-data">
+		<input asp-for="PostID" type="hidden" />
+		
+		<input asp-for="Author" type="hidden" value="@ViewBag.loggedUser" />
+		
+		<div class="form-group row">
+			<label asp-for="Title" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input asp-for="Title" class="form-control" />
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label asp-for="Description" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input asp-for="Description" class="form-control" />
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label asp-for="Body" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input asp-for="Body" class="form-control" />
+			</div>
+		</div>
+
+		<input asp-action="CreatePost" asp-controller="Posts" type="submit" class="btn btn-primary" value="Create" />
+		
+	</form>
+	<a asp-action="Index" asp-controller="Posts" class="btn btn-success">Back</a>
+</div>

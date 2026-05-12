@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<opimerchant.Models.Post>
+@inject SignInManager<opimerchant.Models.User> _signInManager;
+
+<div>
+	@if (_signInManager.IsSignedIn(User))
+	{
+		<a asp-action="Create" asp-controller="Posts" type="submit" class="btn btn-primary">Create New Post</a>
+	}
+</div>
+
+<br />
+
+<div class="h1">
+	Posts
+</div>
+
+<form method="get">
+
+<table class="table table-hover">
+	<tbody>
+		<tr>
+			<th>Author</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>🛠</th>
+		</tr>
+		@foreach (var post in Model)
+		{
+			<tr>
+				<td>@post.Author</td>
+				<td>@post.Title</td>
+				<td>@post.Description</td>
+
+				<td>
+					<a asp-action="Details" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-primary">View</a>
+					@if (_signInManager.IsSignedIn(User) && post.Author == User.Identity!.Name)
+					{
+						<a asp-action="Edit" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-warning">Edit</a>
+						<a asp-action="Delete" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-danger">Delete</a>
+					}
+				</td>
+			</tr>
+		}
+
+
+	</tbody>
+</table>
+</form>
+
+
+

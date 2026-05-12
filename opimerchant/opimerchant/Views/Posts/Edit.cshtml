@@ -1,0 +1,32 @@
+@model opimerchant.Models.Post
+
+<div>
+	<form asp-action="Edit" asp-controller="Posts" asp-route-id="@Model.PostID" method="post" enctype="multipart/form-data">
+		<input asp-for="PostID" type="hidden" />
+
+		<div class="form-group row">
+			<label asp-for="Title" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input asp-for="Title" class="form-control" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label asp-for="Description" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input asp-for="Description" class="form-control" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label asp-for="Body" class="col-sm-2 col-form-label"></label>
+			<div class="col-sm-10">
+				<input asp-for="Body" class="form-control" />
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Save</button>
+
+	</form>
+	<a asp-action="Index" asp-controller="Posts" class="btn btn-success">Back</a>
+</div>
