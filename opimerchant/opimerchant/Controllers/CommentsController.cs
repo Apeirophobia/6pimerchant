@@ -133,5 +133,26 @@ namespace opimerchant.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Posts", new { id = comment.PostID });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(Guid commentId)
+        {
+            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.CommentID == commentId);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            if (!_signInManager.IsSignedIn(User) || comment.Author != User.Identity?.Name)
+            {
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+
+            var ratings = _context.CommentRatings.Where(r => r.CommentID == commentId);
+            _context.CommentRatings.RemoveRange(ratings);
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Posts", new { id = comment.PostID });
+        }
     }
 }

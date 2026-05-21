@@ -72,6 +72,14 @@
 						}
 						<span class="ms-2">@(likeCounts.TryGetValue(comment.CommentID, out var lc) ? lc : 0) likes</span>
 						<span class="ms-2">@(dislikeCounts.TryGetValue(comment.CommentID, out var dc) ? dc : 0) dislikes</span>
+						@if (User.Identity?.IsAuthenticated == true && comment.Author == User.Identity.Name)
+						{
+							<form asp-action="DeleteComment" asp-controller="Comments" method="post" class="d-inline ms-2">
+								@Html.AntiForgeryToken()
+								<input type="hidden" name="commentId" value="@comment.CommentID" />
+								<button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+							</form>
+						}
 					</div>
 				</li>
 			}
