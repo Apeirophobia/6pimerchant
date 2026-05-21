@@ -41,6 +41,7 @@
 	@{
 		var comments = ViewBag.Comments as List<opimerchant.Models.Comment> ?? new List<opimerchant.Models.Comment>();
 		var likeCounts = ViewBag.LikeCounts as Dictionary<Guid, int> ?? new Dictionary<Guid, int>();
+		var dislikeCounts = ViewBag.DislikeCounts as Dictionary<Guid, int> ?? new Dictionary<Guid, int>();
 	}
 
 	@if (comments.Count == 0)
@@ -63,8 +64,14 @@
 								<input type="hidden" name="commentId" value="@comment.CommentID" />
 								<button type="submit" class="btn btn-sm btn-outline-success">Like</button>
 							</form>
+							<form asp-action="Dislike" asp-controller="Comments" method="post" class="d-inline">
+								@Html.AntiForgeryToken()
+								<input type="hidden" name="commentId" value="@comment.CommentID" />
+								<button type="submit" class="btn btn-sm btn-outline-danger">Dislike</button>
+							</form>
 						}
 						<span class="ms-2">@(likeCounts.TryGetValue(comment.CommentID, out var lc) ? lc : 0) likes</span>
+						<span class="ms-2">@(dislikeCounts.TryGetValue(comment.CommentID, out var dc) ? dc : 0) dislikes</span>
 					</div>
 				</li>
 			}

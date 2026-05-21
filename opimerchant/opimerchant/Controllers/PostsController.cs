@@ -88,6 +88,9 @@ namespace opimerchant.Controllers
             ViewBag.LikeCounts = ratings.Where(r => r.IsLike)
                 .GroupBy(r => r.CommentID)
                 .ToDictionary(g => g.Key, g => g.Count());
+            ViewBag.DislikeCounts = ratings.Where(r => !r.IsLike)
+                .GroupBy(r => r.CommentID)
+                .ToDictionary(g => g.Key, g => g.Count());
 
             return View(result);
         }

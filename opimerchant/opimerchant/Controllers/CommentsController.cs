@@ -92,5 +92,46 @@ namespace opimerchant.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Posts", new { id = comment.PostID });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Dislike(Guid commentId)
+        {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("AccessDenied", "Posts");
+            }
+
+            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.CommentID == commentId);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            var userEmail = User.Identity?.Name;
+            var existing = await _context.CommentRatings
+                .FirstOrDefaultAsync(r => r.CommentID == commentId && r.UserEmail == userEmail);
+
+            if (existing == null)
+            {
+                await _context.CommentRatings.AddAsync(new CommentRating
+                {
+                    CommentRatingID = Guid.NewGuid(),
+                    CommentID = commentId,
+                    UserEmail = userEmail,
+                    IsLike = false
+                });
+            }
+            else if (!existing.IsLike)
+            {
+                _context.CommentRatings.Remove(existing);
+            }
+            else
+            {
+                existing.IsLike = false;
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Posts", new { id = comment.PostID });
+        }
     }
 }
