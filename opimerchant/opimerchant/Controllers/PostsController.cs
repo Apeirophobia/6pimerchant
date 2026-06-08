@@ -74,8 +74,25 @@ namespace opimerchant.Controllers
             {
                 return NotFound();
             }
-            
-            return View(result);    
+
+            var comments = await _context.Comments
+                .Where(c => c.PostID == id)
+                .OrderByDescending(c => c.CreatedAt)
+                .ToListAsync();
+            ViewBag.Comments = comments;
+
+            var commentIds = comments.Select(c => c.CommentID).ToList();
+            var ratings = await _context.CommentRatings
+                .Where(r => commentIds.Contains(r.CommentID))
+                .ToListAsync();
+            ViewBag.LikeCounts = ratings.Where(r => r.IsLike)
+                .GroupBy(r => r.CommentID)
+                .ToDictionary(g => g.Key, g => g.Count());
+            ViewBag.DislikeCounts = ratings.Where(r => !r.IsLike)
+                .GroupBy(r => r.CommentID)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            return View(result);
         }
 
         [HttpGet]

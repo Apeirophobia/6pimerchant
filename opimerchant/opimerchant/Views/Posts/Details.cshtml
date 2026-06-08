@@ -34,4 +34,71 @@
 	<form>
 		<a asp-action="Index" asp-controller="Posts" class="btn btn-primary">Back</a>
 	</form>
+
+	<hr />
+	<h3>Comments</h3>
+
+	@{
+		var comments = ViewBag.Comments as List<opimerchant.Models.Comment> ?? new List<opimerchant.Models.Comment>();
+		var likeCounts = ViewBag.LikeCounts as Dictionary<Guid, int> ?? new Dictionary<Guid, int>();
+		var dislikeCounts = ViewBag.DislikeCounts as Dictionary<Guid, int> ?? new Dictionary<Guid, int>();
+	}
+
+	@if (comments.Count == 0)
+	{
+		<p><em>No comments yet.</em></p>
+	}
+	else
+	{
+		<ul class="list-group mb-3">
+			@foreach (var comment in comments)
+			{
+				<li class="list-group-item">
+					<div><strong>@comment.Author</strong> <small class="text-muted">@comment.CreatedAt.ToString("yyyy-MM-dd HH:mm")</small></div>
+					<div>@comment.Body</div>
+					<div class="mt-2">
+						@if (User.Identity?.IsAuthenticated == true)
+						{
+							<form asp-action="Like" asp-controller="Comments" method="post" class="d-inline">
+								@Html.AntiForgeryToken()
+								<input type="hidden" name="commentId" value="@comment.CommentID" />
+								<button type="submit" class="btn btn-sm btn-outline-success">Like</button>
+							</form>
+							<form asp-action="Dislike" asp-controller="Comments" method="post" class="d-inline">
+								@Html.AntiForgeryToken()
+								<input type="hidden" name="commentId" value="@comment.CommentID" />
+								<button type="submit" class="btn btn-sm btn-outline-danger">Dislike</button>
+							</form>
+						}
+						<span class="ms-2">@(likeCounts.TryGetValue(comment.CommentID, out var lc) ? lc : 0) likes</span>
+						<span class="ms-2">@(dislikeCounts.TryGetValue(comment.CommentID, out var dc) ? dc : 0) dislikes</span>
+						@if (User.Identity?.IsAuthenticated == true && comment.Author == User.Identity.Name)
+						{
+							<form asp-action="DeleteComment" asp-controller="Comments" method="post" class="d-inline ms-2">
+								@Html.AntiForgeryToken()
+								<input type="hidden" name="commentId" value="@comment.CommentID" />
+								<button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+							</form>
+						}
+					</div>
+				</li>
+			}
+		</ul>
+	}
+
+	@if (User.Identity?.IsAuthenticated == true)
+	{
+		<form asp-action="CommentPost" asp-controller="Comments" method="post">
+			@Html.AntiForgeryToken()
+			<input type="hidden" name="postId" value="@Model.PostID" />
+			<div class="form-group">
+				<textarea name="body" class="form-control" rows="3" placeholder="Write a comment..." required></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary mt-2">Post comment</button>
+		</form>
+	}
+	else
+	{
+		<p><em>Log in to post a comment.</em></p>
+	}
 </div>
