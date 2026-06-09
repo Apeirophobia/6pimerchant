@@ -31,6 +31,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
                         </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Profiles" asp-action="Index">Users</a>
+                        </li>
+
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Profiles" asp-action="MyProfile">My Profile</a>
+                            </li>
+                        }
+                        
                     </ul>
                     <ul>
                         @if (signInManager.IsSignedIn(User))

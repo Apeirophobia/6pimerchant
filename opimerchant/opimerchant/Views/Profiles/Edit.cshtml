@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model opimerchant.Models.User;
+@inject SignInManager<opimerchant.Models.User> _signInManager;
+<div>
+	<form method="post" asp-action="EditConfirm" enctype="multipart/form-data">
+		<input asp-for="Id" type="hidden" />
+		
+		<div class="form-group row">
+			<label asp-for="UserName" class="col-sm-2 col-form-label" >Username</label>
+			<div class="col-sm-10">
+				<input asp-for="UserName" type="text" disabled/>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label asp-for="Bio" class="col-sm-2 col-form-label" >Bio: </label>
+			<div class="col-sm-10">
+				<input asp-for="Bio" class="form-control" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label" >Upload Profile Picture: </label>
+			<div class="col-sm-10">
+				<input type="file" name="File" class="form-control" />
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>

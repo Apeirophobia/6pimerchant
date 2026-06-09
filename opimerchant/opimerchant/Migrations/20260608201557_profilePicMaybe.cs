@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace opimerchant.Migrations
 {
     /// <inheritdoc />
-    public partial class newPull : Migration
+    public partial class profilePicMaybe : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +31,8 @@ namespace opimerchant.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Orders = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -49,6 +51,35 @@ namespace opimerchant.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentRatings",
+                columns: table => new
+                {
+                    CommentRatingID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsLike = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentRatings", x => x.CommentRatingID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    CommentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PostID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentID);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,6 +241,12 @@ namespace opimerchant.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentRatings_CommentID_UserEmail",
+                table: "CommentRatings",
+                columns: new[] { "CommentID", "UserEmail" },
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -229,6 +266,12 @@ namespace opimerchant.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CommentRatings");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Posts");

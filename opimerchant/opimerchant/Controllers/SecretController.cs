@@ -20,5 +20,20 @@ namespace opimerchant.Controllers
 
             return View();
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View("AccessDenied");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> AccessDeniedPost()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        
     }
 }

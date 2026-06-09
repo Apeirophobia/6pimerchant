@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using opimerchant.Data;
 using opimerchant.Models;
+using opimerchant.Services;
 
 namespace opimerchant
 {
@@ -13,6 +14,7 @@ namespace opimerchant
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IFileUploadService, LocalFileUploadService>();
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddIdentity<User, IdentityRole>(options =>
