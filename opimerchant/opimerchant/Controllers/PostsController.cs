@@ -23,6 +23,11 @@ namespace opimerchant.Controllers
         {
 
             var data = _context.Posts.ToList();
+            ViewBag.UsersByName = _context.Users
+                .Where(u => u.UserName != null)
+                .ToList()
+                .GroupBy(u => u.UserName!)
+                .ToDictionary(g => g.Key, g => g.First());
             return View(data);
         }
 

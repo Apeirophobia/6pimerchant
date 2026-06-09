@@ -52,6 +52,19 @@ namespace opimerchant.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Details(string userName)
+        {
+            var profile = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return View(profile);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             var profile = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);

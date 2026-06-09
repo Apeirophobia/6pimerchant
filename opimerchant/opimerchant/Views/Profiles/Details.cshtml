@@ -1,0 +1,29 @@
+@model opimerchant.Models.User
+
+@{
+	var avatar = string.IsNullOrEmpty(Model.ProfilePicture) ? "birb.png" : Model.ProfilePicture;
+}
+
+<div class="row justify-content-center">
+	<div class="col-md-8 col-lg-6">
+		<div class="card post-card">
+			<div class="card-body text-center">
+				<img class="profile-avatar mb-3" src="~/images/@avatar" alt="@Model.UserName" />
+				<h2 class="card-title mb-3">@Model.UserName</h2>
+
+				<h6 class="text-muted text-uppercase">Bio</h6>
+				@if (string.IsNullOrWhiteSpace(Model.Bio))
+				{
+					<p class="text-muted fst-italic">This user has not written a bio yet.</p>
+				}
+				else
+				{
+					<p>@Model.Bio</p>
+				}
+			</div>
+			<div class="card-footer bg-transparent border-top-0 text-center">
+				<a asp-action="Index" asp-controller="Posts" class="btn btn-primary">Back to Posts</a>
+			</div>
+		</div>
+	</div>
+</div>

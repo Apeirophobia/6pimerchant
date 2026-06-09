@@ -20,3 +20,190 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Posts page header */
+.posts-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* ===== Posts card grid ===== */
+.post-card {
+  position: relative;
+  border: 1px solid #eceaf5;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0.25rem 0.75rem rgba(76, 29, 149, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1rem 2rem rgba(76, 29, 149, 0.18);
+}
+
+/* Coloured banner at the top of each card (title) */
+.post-card-banner {
+  position: relative;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%);
+  color: #fff;
+  padding: 1.4rem 1.35rem 1.25rem;
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  overflow: hidden;
+}
+
+/* Decorative oversized watermark glyph in the banner corner */
+.post-card-banner::after {
+  content: "❝";
+  position: absolute;
+  top: -1.4rem;
+  right: 0.5rem;
+  font-size: 6rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.post-card-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.3rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(2px);
+}
+
+.post-card-banner-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+/* Body */
+.post-card .card-body {
+  padding: 1.15rem 1.35rem 0.5rem;
+}
+
+.post-card-desc {
+  color: #6b7280;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card-divider {
+  margin: 1rem 0 0.85rem;
+  border: 0;
+  border-top: 1px solid #eceef3;
+  opacity: 1;
+}
+
+/* Owner row */
+.post-owner-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+}
+
+.post-owner-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #e9e5fb;
+  transition: box-shadow 0.15s ease;
+}
+
+.post-owner-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.post-owner-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #9ca3af;
+}
+
+.post-owner-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #374151;
+}
+
+a.post-owner-link:hover .post-owner-name {
+  color: #6d28d9;
+  text-decoration: underline;
+}
+
+a.post-owner-link:hover .post-owner-avatar {
+  box-shadow: 0 0 0 2px #8b5cf6;
+}
+
+/* Footer with pill buttons */
+.post-card-footer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.4rem 1.35rem 1.25rem;
+  margin-top: auto;
+}
+
+.btn-pill {
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border: none;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.btn-pill:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn-view {
+  flex: 1;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #fff;
+}
+
+.btn-edit {
+  background: #fef3c7;
+  color: #b45309;
+  padding: 0.4rem 0.7rem;
+}
+
+.btn-del {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 0.4rem 0.7rem;
+}
+
+/* Profile details view */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
