@@ -12,8 +12,8 @@ using opimerchant.Data;
 namespace opimerchant.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260512073711_newPull")]
-    partial class newPull
+    [Migration("20260608201557_profilePicMaybe")]
+    partial class profilePicMaybe
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,6 +158,55 @@ namespace opimerchant.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("opimerchant.Models.Comment", b =>
+                {
+                    b.Property<Guid>("CommentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PostID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CommentID");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("opimerchant.Models.CommentRating", b =>
+                {
+                    b.Property<Guid>("CommentRatingID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CommentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsLike")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CommentRatingID");
+
+                    b.HasIndex("CommentID", "UserEmail")
+                        .IsUnique();
+
+                    b.ToTable("CommentRatings");
+                });
+
             modelBuilder.Entity("opimerchant.Models.Post", b =>
                 {
                     b.Property<Guid>("PostID")
@@ -192,6 +241,9 @@ namespace opimerchant.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -229,6 +281,9 @@ namespace opimerchant.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
