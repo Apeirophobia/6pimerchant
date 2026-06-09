@@ -32,8 +32,8 @@ namespace opimerchant.Controllers
             Post blank_post = new Post();
             if (!_signInManager.IsSignedIn(User))
             {
-                Console.WriteLine("How did you get here?");
-                return RedirectToAction("AccessDenied", "Posts");
+                // Console.WriteLine("How did you get here?");
+                return RedirectToAction("AccessDenied", "Secret");
             }
 
             var loggedUser =  await _signInManager.UserManager.GetUserAsync(User);
@@ -96,12 +96,6 @@ namespace opimerchant.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AccessDenied()
-        {
-            return View("AccessDenied", "Posts");
-        }
-
-        [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
             var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostID == id);
@@ -111,7 +105,7 @@ namespace opimerchant.Controllers
             }
             if (!_signInManager.IsSignedIn(User) || post.Author != User.Identity?.Name)
             {
-                return RedirectToAction("AccessDenied", "Posts");
+                return RedirectToAction("AccessDenied", "Secret");
             }
             return View(post);
         }
@@ -126,7 +120,7 @@ namespace opimerchant.Controllers
             }
             if (!_signInManager.IsSignedIn(User) || post.Author != User.Identity?.Name)
             {
-                return RedirectToAction("AccessDenied", "Posts");
+                return RedirectToAction("AccessDenied", "Secret");
             }
             return View(post);
         }
@@ -141,7 +135,7 @@ namespace opimerchant.Controllers
             }
             if (!_signInManager.IsSignedIn(User) || stored.Author != User.Identity?.Name)
             {
-                return RedirectToAction("AccessDenied", "Posts");
+                return RedirectToAction("AccessDenied", "Secret");
             }
 
             ModelState.Remove(nameof(Post.Author));
@@ -165,7 +159,7 @@ namespace opimerchant.Controllers
             }
             if (!_signInManager.IsSignedIn(User) || post.Author != User.Identity?.Name)
             {
-                return RedirectToAction("AccessDenied", "Posts");
+                return RedirectToAction("AccessDenied", "Secret");
             }
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
