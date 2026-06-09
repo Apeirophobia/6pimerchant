@@ -7,11 +7,14 @@
 		?? new Dictionary<string, opimerchant.Models.User>();
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-	<h1 class="m-0">Posts</h1>
+<div class="posts-header d-flex justify-content-between align-items-center mb-4">
+	<div>
+		<h1 class="m-0">Posts</h1>
+		<p class="text-muted m-0">Browse study materials shared by the community</p>
+	</div>
 	@if (_signInManager.IsSignedIn(User))
 	{
-		<a asp-action="Create" asp-controller="Posts" class="btn btn-primary">Create New Post</a>
+		<a asp-action="Create" asp-controller="Posts" class="btn btn-primary">+ Create New Post</a>
 	}
 </div>
 
@@ -22,37 +25,48 @@
 		var avatar = string.IsNullOrEmpty(owner?.ProfilePicture) ? "birb.png" : owner.ProfilePicture;
 
 		<div class="col">
-			<div class="card post-card h-100">
+			<article class="card post-card h-100">
+				<div class="post-card-banner">
+					<span class="post-card-eyebrow">📄 Study material</span>
+					<h5 class="post-card-banner-title m-0">@post.Title</h5>
+				</div>
 				<div class="card-body d-flex flex-column">
-					<h5 class="card-title">@post.Title</h5>
-					<p class="card-text text-muted flex-grow-1">@post.Description</p>
+					<p class="post-card-desc flex-grow-1">@post.Description</p>
+
+					<hr class="post-card-divider" />
 
 					@if (owner != null)
 					{
 						<a asp-action="Details" asp-controller="Profiles" asp-route-userName="@post.Author"
-						   class="d-flex align-items-center mt-3 text-decoration-none text-reset post-owner-link">
-							<img class="post-owner-avatar me-2" src="~/images/@avatar" alt="@post.Author" />
-							<span class="fw-semibold">@post.Author</span>
+						   class="post-owner-link text-decoration-none text-reset">
+							<img class="post-owner-avatar" src="~/images/@avatar" alt="@post.Author" />
+							<span class="post-owner-meta">
+								<span class="post-owner-label">Posted by</span>
+								<span class="post-owner-name">@post.Author</span>
+							</span>
 						</a>
 					}
 					else
 					{
-						<div class="d-flex align-items-center mt-3">
-							<img class="post-owner-avatar me-2" src="~/images/@avatar" alt="@post.Author" />
-							<span class="fw-semibold">@post.Author</span>
+						<div class="post-owner-link">
+							<img class="post-owner-avatar" src="~/images/@avatar" alt="@post.Author" />
+							<span class="post-owner-meta">
+								<span class="post-owner-label">Posted by</span>
+								<span class="post-owner-name">@post.Author</span>
+							</span>
 						</div>
 					}
 				</div>
 
-				<div class="card-footer bg-transparent border-top-0 d-flex gap-2">
-					<a asp-action="Details" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-sm btn-primary">View</a>
+				<div class="post-card-footer">
+					<a asp-action="Details" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-pill btn-view">View post</a>
 					@if (_signInManager.IsSignedIn(User) && post.Author == User.Identity!.Name)
 					{
-						<a asp-action="Edit" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-sm btn-warning">Edit</a>
-						<a asp-action="Delete" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-sm btn-danger">Delete</a>
+						<a asp-action="Edit" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-pill btn-edit" title="Edit">✎</a>
+						<a asp-action="Delete" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-pill btn-del" title="Delete">🗑</a>
 					}
 				</div>
-			</div>
+			</article>
 		</div>
 	}
 </div>
