@@ -1,52 +1,47 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @model IEnumerable<opimerchant.Models.Post>
 @inject SignInManager<opimerchant.Models.User> _signInManager;
 
-<div>
+@{
+	var usersByName = ViewBag.UsersByName as Dictionary<string, opimerchant.Models.User>
+		?? new Dictionary<string, opimerchant.Models.User>();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<h1 class="m-0">Posts</h1>
 	@if (_signInManager.IsSignedIn(User))
 	{
-		<a asp-action="Create" asp-controller="Posts" type="submit" class="btn btn-primary">Create New Post</a>
+		<a asp-action="Create" asp-controller="Posts" class="btn btn-primary">Create New Post</a>
 	}
 </div>
 
-<br />
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+	@foreach (var post in Model)
+	{
+		var owner = usersByName.GetValueOrDefault(post.Author ?? "");
+		var avatar = string.IsNullOrEmpty(owner?.ProfilePicture) ? "birb.png" : owner.ProfilePicture;
 
-<div class="h1">
-	Posts
-</div>
+		<div class="col">
+			<div class="card post-card h-100">
+				<div class="card-body d-flex flex-column">
+					<h5 class="card-title">@post.Title</h5>
+					<p class="card-text text-muted flex-grow-1">@post.Description</p>
 
-<form method="get">
+					<div class="d-flex align-items-center mt-3">
+						<img class="post-owner-avatar me-2" src="~/images/@avatar" alt="@post.Author" />
+						<span class="fw-semibold">@post.Author</span>
+					</div>
+				</div>
 
-<table class="table table-hover">
-	<tbody>
-		<tr>
-			<th>Author</th>
-			<th>Title</th>
-			<th>Description</th>
-			<th>🛠</th>
-		</tr>
-		@foreach (var post in Model)
-		{
-			<tr>
-				<td>@post.Author</td>
-				<td>@post.Title</td>
-				<td>@post.Description</td>
-
-				<td>
-					<a asp-action="Details" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-primary">View</a>
+				<div class="card-footer bg-transparent border-top-0 d-flex gap-2">
+					<a asp-action="Details" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-sm btn-primary">View</a>
 					@if (_signInManager.IsSignedIn(User) && post.Author == User.Identity!.Name)
 					{
-						<a asp-action="Edit" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-warning">Edit</a>
-						<a asp-action="Delete" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-danger">Delete</a>
+						<a asp-action="Edit" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-sm btn-warning">Edit</a>
+						<a asp-action="Delete" asp-controller="Posts" asp-route-id="@post.PostID" class="btn btn-sm btn-danger">Delete</a>
 					}
-				</td>
-			</tr>
-		}
-
-
-	</tbody>
-</table>
-</form>
-
-
-
+				</div>
+			</div>
+		</div>
+	}
+</div>
