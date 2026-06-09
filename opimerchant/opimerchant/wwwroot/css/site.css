@@ -39,6 +39,18 @@ body {
   object-fit: cover;
 }
 
+.post-owner-link {
+  width: fit-content;
+}
+
+.post-owner-link:hover .fw-semibold {
+  text-decoration: underline;
+}
+
+.post-owner-link:hover .post-owner-avatar {
+  box-shadow: 0 0 0 2px #258cfb;
+}
+
 /* Profile details view */
 .profile-avatar {
   width: 120px;

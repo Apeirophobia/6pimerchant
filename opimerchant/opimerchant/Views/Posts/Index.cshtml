@@ -27,10 +27,21 @@
 					<h5 class="card-title">@post.Title</h5>
 					<p class="card-text text-muted flex-grow-1">@post.Description</p>
 
-					<div class="d-flex align-items-center mt-3">
-						<img class="post-owner-avatar me-2" src="~/images/@avatar" alt="@post.Author" />
-						<span class="fw-semibold">@post.Author</span>
-					</div>
+					@if (owner != null)
+					{
+						<a asp-action="Details" asp-controller="Profiles" asp-route-userName="@post.Author"
+						   class="d-flex align-items-center mt-3 text-decoration-none text-reset post-owner-link">
+							<img class="post-owner-avatar me-2" src="~/images/@avatar" alt="@post.Author" />
+							<span class="fw-semibold">@post.Author</span>
+						</a>
+					}
+					else
+					{
+						<div class="d-flex align-items-center mt-3">
+							<img class="post-owner-avatar me-2" src="~/images/@avatar" alt="@post.Author" />
+							<span class="fw-semibold">@post.Author</span>
+						</div>
+					}
 				</div>
 
 				<div class="card-footer bg-transparent border-top-0 d-flex gap-2">
